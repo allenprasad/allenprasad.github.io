@@ -90,8 +90,6 @@ div.a {
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script>
 
-data = {{data|safe}}
-
 // set the dimensions and margins of the graph
 var margin = {top: 100, right: 20, bottom: 30, left: 500},
     width = 800 - margin.left - margin.right,
@@ -114,6 +112,13 @@ var svg = d3.select("body").append("svg")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
 
+d3.csv("data.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.y = +d.y;
+  });
 
   // Scale the range of the data in the domains
   x.domain(data.map(function(d) { return d.x; }));
@@ -137,7 +142,7 @@ var svg = d3.select("body").append("svg")
   // add the y Axis
   svg.append("g")
       .call(d3.axisLeft(y));
-
+});
 
 </script>
 
